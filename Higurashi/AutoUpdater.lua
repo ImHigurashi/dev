@@ -3,15 +3,15 @@ local appdata_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
 local higurashi_path = appdata_path .. "\\scripts\\Higurashi"
 
 local file_paths = {
-    main = appdata_path .. "\\scripts\\Higurashi.lua",
-    changelog = higurashi_path .. "\\Changelog.txt",
-    version = higurashi_path .. "\\Version.txt",
+    main = appdata_path .. "\\scripts\\dev.lua",
+    changelog = higurashi_path .. "\\Changelog.md",
+    version = higurashi_path .. "\\Version.md",
 }
 
 local files = {
-    main = [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi.lua]],
-    changelog = [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Changelog.txt]],
-    version = [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Version.txt]],
+    main = [[https://raw.githubusercontent.com/ImHigurashi/dev/main/dev.lua]],
+    changelog = [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Changelog.md]],
+    version = [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Version.md]],
 }
 
 local all_files = 0
