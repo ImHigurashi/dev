@@ -4,10 +4,14 @@ local higurashi_path = appdata_path .. "\\scripts\\Higurashi"
 
 local file_paths = {
     main = appdata_path .. "\\scripts\\Higurashi.lua",
+    changelog = higurashi_path .. "\\Changelog.txt",
+    version = higurashi_path .. "\\Version.txt",
 }
 
 local files = {
     main = [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi.lua]],
+    changelog = [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Changelog.txt]],
+    version = [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Version.txt]],
 }
 
 local all_files = 0
