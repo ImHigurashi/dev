@@ -60,7 +60,7 @@ if HigurashiScript and
         vercheckKeys.enter:push_vk(0x0D);
         vercheckKeys.rshift:push_vk(0xA1)
         local response_code, github_version = web.get(
-            "https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Version.md")
+            "https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Version.log")
         if response_code == 200 then
             github_version = github_version:gsub("[\r\n]", "")
             if github_version ~= script_version then
@@ -81,7 +81,7 @@ if HigurashiScript and
                             text_size).x / graphics.get_screen_width(), 0)
                 }
                 strings.changelog_rc, strings.changelog = web.get(
-                    "https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Changelog.md")
+                    "https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Changelog.log")
                 if strings.changelog_rc == 200 then
                     strings.changelog = "\n\n\nChangelog:\n" ..
                         strings.changelog
