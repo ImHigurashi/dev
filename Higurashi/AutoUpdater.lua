@@ -9,7 +9,7 @@ local file_paths = {
 }
 
 local files = {
-    main = [[ https://raw.githubusercontent.com/ImHigurashi/dev/main/dev.lua ]],
+    main = [[https://raw.githubusercontent.com/ImHigurashi/dev/main/dev.lua]],
     --changelog = [[ https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Changelog.md ]],
     --version = [[ https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Version.md ]],
 }
