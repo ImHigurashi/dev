@@ -156,7 +156,6 @@ else
     menu.exit()
 end
 function MainScript()
-
     local function get_user_coords()
         return NATIVE.GET_ENTITY_COORDS(NATIVE.PLAYER_PED_ID(), false)
     end
@@ -168,7 +167,7 @@ function MainScript()
             return NATIVE.NETWORK_GET_LAST_PLAYER_POS_RECEIVED_OVER_NETWORK(pid)
         end
     end
-	
+
     do
         local is_valid = player.is_player_valid
         function players(me)
@@ -186,7 +185,7 @@ function MainScript()
             end
         end
     end
-	
+
     local function request_model(hash, timeout)
         while NATIVE.GET_NUMBER_OF_STREAMING_REQUESTS() > 0 do
             wait(0)
@@ -301,7 +300,7 @@ function MainScript()
     Parent1 = m.apf("Dev", "parent", 0)
 
     PlayerFeature = m.apf("", "parent", Parent1.id)
-	
+
 
     Parent2 = m.af("Dev", "parent", 0)
 
