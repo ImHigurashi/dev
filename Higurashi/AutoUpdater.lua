@@ -1,7 +1,6 @@
 local status_ = true
 local appdata_path = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
-local higurashi_path = appdata_path .. "\\scripts\\Project.Higurashi"
-local datas_path = higurashi_path .. "\\datas"
+local higurashi_path = appdata_path .. "\\scripts\\Higurashi"
 
 local file_paths = {
     main = appdata_path .. "\\scripts\\Higurashi.lua",
