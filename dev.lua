@@ -99,13 +99,13 @@ if HigurashiScript and
                     scriptdraw.draw_text(
                         "New version available. Press CTRL or SPACE to skip or press ENTER or RIGHT SHIFT to update.",
                         strings.new_ver_x_offset, stringV2size, text_size,
-                        0xFFFFFFFF, 2)
+                        0xFF1EB400, 2)
                     scriptdraw.draw_text(strings.version_compare,
                         strings.version_compare_x_offset,
-                        stringV2size, text_size, 0xFFFFFFFF, 2)
+                        stringV2size, text_size, 0xFF1EB400, 2)
                     scriptdraw.draw_text(strings.changelog,
                         strings.changelog_x_offset,
-                        stringV2size, text_size, 0xFFFFFFFF, 2)
+                        stringV2size, text_size, 0xFF1EB400, 2)
                     if Dev or vercheckKeys.ctrl:is_down() or
                         vercheckKeys.space:is_down() then
                         MainScript()
