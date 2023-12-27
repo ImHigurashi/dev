@@ -1,6 +1,6 @@
 local HigurashiScript = true
-local Dev = true
-local script_version = "1.0.0"
+local Dev = false
+local script_version = "1.0.1"
 local paths = {}
 paths.root = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
 paths.higurashi = paths.root .. "\\scripts\\Higurashi"
@@ -299,27 +299,6 @@ function MainScript()
             end
         end
     end
-    m.apf("Fake Typing", "action", PlayerFeature.id, function(f, pid)
-        local bits = 0
-        for pid in players(true) do
-            bits = bits | 1 << pid
-        end
-        --script.trigger_script_event_2(1 << pid, 0xEA247E92, pid, player.player_id(), -1)
-
-        local args = { 0xE99C5BC4, pid, pid, -1, -13367 }
-        NATIVE.TRIGGER_SCRIPT_EVENT(1, args, 5, bits)
-        NATIVE.SEND_TU_SCRIPT_EVENT(1, args, 5, bits)
-        --m.n( args .." : "..bits)
-    end)
-
-
-
-
-
-
-
-
-
 
 
     Parent2 = m.af("Dev", "parent", 0)
