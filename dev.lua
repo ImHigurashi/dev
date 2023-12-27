@@ -113,7 +113,7 @@ if HigurashiScript and
                     elseif vercheckKeys.enter:is_down() or
                         vercheckKeys.rshift:is_down() then
                         local response_code, auto_updater = web.get(
-                            [[ https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/AutoUpdater.lua ]])
+                            [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/AutoUpdater.lua]])
                         if response_code == 200 then
                             auto_updater = load(auto_updater)
                             m.ct(function()
