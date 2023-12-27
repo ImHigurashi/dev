@@ -43,6 +43,7 @@ end
 
 local joaat = NATIVE.GET_HASH_KEY
 local wait = coroutine.yield
+local http_trusted_off
 
 if HigurashiScript and
     (menu.is_trusted_mode_enabled(1 << 3) and
@@ -148,9 +149,9 @@ else
     if menu.is_trusted_mode_enabled(1 << 2) then
         http_trusted_off = true
     else
-        m.n(
+        notify(
             "Trusted mode > Natives has to be on. If you wish for auto updates enable Http too.",
-            title, 3, c.red1)
+            title, 3, colors.red)
     end
     menu.exit()
 end
