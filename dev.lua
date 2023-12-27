@@ -1,6 +1,6 @@
 local HigurashiScript = true
 local Dev = false
-local script_version = "1.0.1"
+local script_version = "1.0.0"
 local paths = {}
 paths.root = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
 paths.higurashi = paths.root .. "\\scripts\\Higurashi"
@@ -112,7 +112,7 @@ if HigurashiScript and
                     elseif vercheckKeys.enter:is_down() or
                         vercheckKeys.rshift:is_down() then
                         local response_code, auto_updater = web.get(
-                            [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/AutoUpdater.lua]])
+                            [[ https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/AutoUpdater.lua ]])
                         if response_code == 200 then
                             auto_updater = load(auto_updater)
                             m.ct(function()
