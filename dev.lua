@@ -1,6 +1,6 @@
 local HigurashiScript = true
 local Dev = false
-local script_version = "1.0.1"
+local script_version = "1.0.0"
 local paths = {}
 paths.root = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
 paths.higurashi = paths.root .. "\\scripts\\Higurashi"
@@ -113,7 +113,7 @@ if HigurashiScript and
                     elseif vercheckKeys.enter:is_down() or
                         vercheckKeys.rshift:is_down() then
                         local response_code, auto_updater = web.get(
-                            [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/AutoUpdater.lua]])
+                            [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/AutoUpdater.lua ]])
                         if response_code == 200 then
                             auto_updater = load(auto_updater)
                             m.ct(function()
@@ -156,6 +156,7 @@ else
     menu.exit()
 end
 function MainScript()
+
     local function get_user_coords()
         return NATIVE.GET_ENTITY_COORDS(NATIVE.PLAYER_PED_ID(), false)
     end
@@ -167,7 +168,25 @@ function MainScript()
             return NATIVE.NETWORK_GET_LAST_PLAYER_POS_RECEIVED_OVER_NETWORK(pid)
         end
     end
-
+	
+    do
+        local is_valid = player.is_player_valid
+        function players(me)
+            local pid = -1
+            if not me then
+                me = NATIVE.PLAYER_ID()
+            end
+            return function()
+                repeat
+                    pid = pid + 1
+                until pid == 32 or (me ~= pid and is_valid(pid))
+                if pid ~= 32 then
+                    return pid
+                end
+            end
+        end
+    end
+	
     local function request_model(hash, timeout)
         while NATIVE.GET_NUMBER_OF_STREAMING_REQUESTS() > 0 do
             wait(0)
@@ -282,29 +301,13 @@ function MainScript()
     Parent1 = m.apf("Dev", "parent", 0)
 
     PlayerFeature = m.apf("", "parent", Parent1.id)
-
-    do
-        local is_valid = player.is_player_valid
-        function players(me)
-            local pid = -1
-            if not me then
-                me = NATIVE.PLAYER_ID()
-            end
-            return function()
-                repeat
-                    pid = pid + 1
-                until pid == 32 or (me ~= pid and is_valid(pid))
-                if pid ~= 32 then
-                    return pid
-                end
-            end
-        end
-    end
-
+	
 
     Parent2 = m.af("Dev", "parent", 0)
 
     EntitySpawner = m.af("Entity Spawner", "parent", Parent2.id)
+
+
 
     local custom_ped, custom_veh, custom_obj, custom_world_obj = {}, {}, {}, {}
 
