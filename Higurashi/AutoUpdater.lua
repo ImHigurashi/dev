@@ -4,8 +4,8 @@ local higurashi_path = appdata_path .. "\\scripts\\Higurashi"
 
 local file_paths = {
     main = appdata_path .. "\\scripts\\dev.lua",
-    --changelog = higurashi_path .. "\\Changelog.md",
-    --version = higurashi_path .. "\\Version.md",
+    changelog = higurashi_path .. "\\Changelog.md",
+    version = higurashi_path .. "\\Version.md",
 }
 
 local files = {
