@@ -1,6 +1,6 @@
 local HigurashiScript = true
 local Dev = false
-local script_version = "1.0.3"
+local script_version = "1.0.4"
 local paths = {}
 paths.root = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
 paths.higurashi = paths.root .. "\\scripts\\Higurashi"
