@@ -452,6 +452,21 @@ function MainScript()
         selected_anim = s
     end)
 
+    local function request_anim_dict(dict, timeout)
+        if NATIVE.HAS_ANIM_DICT_LOADED(dict) then
+            return true
+        end
+        timeout = (timeout or 1800) + utils.time_ms()
+        NATIVE.REQUEST_ANIM_DICT(dict)
+        while utils.time_ms() < timeout do
+            if NATIVE.HAS_ANIM_DICT_LOADED(dict) then
+                return true
+            end
+            wait(0)
+        end
+        return false
+    end
+
     m.af("Play Custom Animation", "action", CustomAnimation.id, function(f)
         if selected_animdict and selected_anim then
             request_anim_dict(selected_animdict)
