@@ -1,6 +1,6 @@
 local HigurashiScript = true
 local Dev = false
-local script_version = "1.0.1"
+local script_version = "1.0.3"
 local paths = {}
 paths.root = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
 paths.higurashi = paths.root .. "\\scripts\\Higurashi"
@@ -15,7 +15,7 @@ local m = {
     gcc = menu.get_cat_children,
     gpf = menu.get_player_feature,
     gfbhk = menu.get_feature_by_hierarchy_key,
-    n = menu.notify
+    n = menu.notify,
 }
 
 local colors = {
@@ -45,75 +45,38 @@ local joaat = NATIVE.GET_HASH_KEY
 local wait = coroutine.yield
 local http_trusted_off
 
-if HigurashiScript and
-    (menu.is_trusted_mode_enabled(1 << 3) and
-        menu.is_trusted_mode_enabled(1 << 2)) then
+if HigurashiScript and (menu.is_trusted_mode_enabled(1 << 3) and menu.is_trusted_mode_enabled(1 << 2)) then
     m.ct(function()
-        local vercheckKeys = {
-            ctrl = MenuKey(),
-            space = MenuKey(),
-            enter = MenuKey(),
-            rshift = MenuKey()
-        }
-        vercheckKeys.ctrl:push_vk(0x11);
-        vercheckKeys.space:push_vk(0x20);
-        vercheckKeys.enter:push_vk(0x0D);
-        vercheckKeys.rshift:push_vk(0xA1)
-        local response_code, github_version = web.get(
-            "https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Version.log")
+        local vercheckKeys = { ctrl = MenuKey(), space = MenuKey(), enter = MenuKey(), rshift = MenuKey() }
+        vercheckKeys.ctrl:push_vk(0x11); vercheckKeys.space:push_vk(0x20); vercheckKeys.enter:push_vk(0x0D); vercheckKeys.rshift:push_vk(0xA1)
+        local response_code, github_version = web.get("https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Version.log")
         if response_code == 200 then
             github_version = github_version:gsub("[\r\n]", "")
             if github_version ~= script_version then
-                local text_size = graphics.get_screen_width() *
-                    graphics.get_screen_height() / 3686400 *
-                    0.5 + 0.5
+                local text_size = graphics.get_screen_width() * graphics.get_screen_height() / 3686400 * 0.5 + 0.5
                 local strings = {
-                    version_compare = "\nCurrent Version:" .. script_version ..
-                        "\nLatest Version:" .. github_version,
-                    version_compare_x_offset = v2(
-                        -scriptdraw.get_text_size(
-                            "\nCurrent Version:" .. script_version ..
-                            "\nLatest Version:" .. github_version, text_size)
-                        .x / graphics.get_screen_width(), 0),
-                    new_ver_x_offset = v2(
-                        -scriptdraw.get_text_size(
-                            "New version available. Press CTRL or SPACE to skip or press ENTER or RIGHT SHIFT to update.",
-                            text_size).x / graphics.get_screen_width(), 0)
+                    version_compare = "\nCurrent Version:" .. script_version .. "\nLatest Version:" .. github_version,
+                    version_compare_x_offset = v2(-scriptdraw.get_text_size("\nCurrent Version:" .. script_version .. "\nLatest Version:" .. github_version, text_size).x / graphics.get_screen_width(), 0),
+                    new_ver_x_offset = v2(-scriptdraw.get_text_size("New version available. Press CTRL or SPACE to skip or press ENTER or RIGHT SHIFT to update.", text_size).x / graphics.get_screen_width(), 0),
                 }
-                strings.changelog_rc, strings.changelog = web.get(
-                    "https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Changelog.log")
+                strings.changelog_rc, strings.changelog = web.get("https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/Changelog.log")
                 if strings.changelog_rc == 200 then
-                    strings.changelog = "\n\n\nChangelog:\n" ..
-                        strings.changelog
+                    strings.changelog = "\n\n\nChangelog:\n" .. strings.changelog
                 else
                     strings.changelog = ""
                 end
-                strings.changelog_x_offset = v2(
-                    -scriptdraw.get_text_size(
-                        strings.changelog,
-                        text_size).x /
-                    graphics.get_screen_width(),
-                    0)
+                strings.changelog_x_offset = v2(-scriptdraw.get_text_size(strings.changelog, text_size).x / graphics.get_screen_width(), 0)
                 local stringV2size = v2(2, 2)
                 while true do
-                    scriptdraw.draw_text(
-                        "New version available. Press CTRL or SPACE to skip or press ENTER or RIGHT SHIFT to update.",
-                        strings.new_ver_x_offset, stringV2size, text_size,
-                        0xFF1EB400, 2)
-                    scriptdraw.draw_text(strings.version_compare,
-                        strings.version_compare_x_offset,
-                        stringV2size, text_size, 0xFF1EB400, 2)
-                    scriptdraw.draw_text(strings.changelog,
-                        strings.changelog_x_offset,
-                        stringV2size, text_size, 0xFF1EB400, 2)
+                    scriptdraw.draw_text("New version available. Press CTRL or SPACE to skip or press ENTER or RIGHT SHIFT to update.", strings.new_ver_x_offset, stringV2size, text_size, 0xFF1EB400, 2)
+                    scriptdraw.draw_text(strings.version_compare, strings.version_compare_x_offset, stringV2size, text_size, 0xFF1EB400, 2)
+                    scriptdraw.draw_text(strings.changelog, strings.changelog_x_offset, stringV2size, text_size, 0xFF1EB400, 2)
                     if Dev or vercheckKeys.ctrl:is_down() or
                         vercheckKeys.space:is_down() then
                         MainScript()
                         break
-                    elseif vercheckKeys.enter:is_down() or
-                        vercheckKeys.rshift:is_down() then
-                        local response_code, auto_updater = web.get(
-                            [[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/AutoUpdater.lua ]])
+                    elseif vercheckKeys.enter:is_down() or vercheckKeys.rshift:is_down() then
+                        local response_code, auto_updater = web.get([[https://raw.githubusercontent.com/ImHigurashi/dev/main/Higurashi/AutoUpdater.lua ]])
                         if response_code == 200 then
                             auto_updater = load(auto_updater)
                             m.ct(function()
@@ -125,9 +88,7 @@ if HigurashiScript and
                                     else
                                         notify("Update Succeeded")
                                         dofile(
-                                            utils.get_appdata_path(
-                                                "PopstarDevs", "2Take1Menu") ..
-                                            "\\scripts\\dev.lua")
+                                            utils.get_appdata_path("PopstarDevs", "2Take1Menu") .. "\\scripts\\dev.lua")
                                     end
                                 else
                                     notify("Download for updated files failed.")
@@ -149,9 +110,8 @@ else
     if menu.is_trusted_mode_enabled(1 << 2) then
         http_trusted_off = true
     else
-        notify(
-            "Trusted mode > Natives has to be on. If you wish for auto updates enable Http too.",
-            title, 3, colors.red)
+        notify("Trusted mode > Natives has to be on. If you wish for auto updates enable Http too.", title, 3, colors
+            .red)
     end
     menu.exit()
 end
@@ -166,6 +126,14 @@ function MainScript()
         else
             return NATIVE.NETWORK_GET_LAST_PLAYER_POS_RECEIVED_OVER_NETWORK(pid)
         end
+    end
+
+    local function get_user_vehicle()
+        return NATIVE.GET_VEHICLE_PED_IS_IN(NATIVE.PLAYER_PED_ID(), false)
+    end
+
+    local function get_player_vehicle(pid)
+        return NATIVE.GET_VEHICLE_PED_IS_IN(NATIVE.GET_PLAYER_PED(pid), false)
     end
 
     do
@@ -202,8 +170,7 @@ function MainScript()
 
     local function request_control(...)
         local Entity, timeout = ...
-        if not NATIVE.NETWORK_HAS_CONTROL_OF_ENTITY(Entity) and NATIVE.IS_AN_ENTITY(Entity)
-            and (not NATIVE.IS_ENTITY_A_PED(Entity) or not NATIVE.IS_PED_A_PLAYER(Entity)) then
+        if not NATIVE.NETWORK_HAS_CONTROL_OF_ENTITY(Entity) and NATIVE.IS_AN_ENTITY(Entity) and (not NATIVE.IS_ENTITY_A_PED(Entity) or not NATIVE.IS_PED_A_PLAYER(Entity)) then
             local time = utils.time_ms() + (timeout or 1000)
             local net_id = NATIVE.NETWORK_GET_NETWORK_ID_FROM_ENTITY(Entity)
             NATIVE.SET_NETWORK_ID_CAN_MIGRATE(net_id, true)
@@ -299,20 +266,67 @@ function MainScript()
 
     Parent1 = m.apf("Dev", "parent", 0)
 
-    PlayerFeature = m.apf("", "parent", Parent1.id)
+    PlayerFeature = m.apf("Utilities", "parent", Parent1.id)
 
+    m.apf("Get Player Rotation", "action", PlayerFeature.id, function(f, pid)
+        local pos = NATIVE.GET_ENTITY_ROTATION(NATIVE.GET_PLAYER_PED(pid), 5)
+        notify(string.format("%f, %f, %f", pos.x, pos.y, pos.z), title, 3, colors.blue)
+        utils.to_clipboard(string.format("%f, %f, %f", pos.x, pos.y, pos.z))
+    end)
+
+    m.apf("Get Veh Coords", "action", PlayerFeature.id, function(f, pid)
+        local veh = get_player_vehicle(pid)
+        if veh ~= 0 then
+            local veh_pos = NATIVE.GET_ENTITY_COORDS(veh, false)
+            notify(string.format("%f, %f, %f", veh_pos.x, veh_pos.y, veh_pos.z), title, 3, c.blue1)
+            utils.to_clipboard(string.format("%f, %f, %f", veh_pos.x, veh_pos.y, veh_pos.z))
+        end
+    end)
+
+    m.apf("Get Veh Rotation", "action", PlayerFeature.id, function(f, pid)
+        local veh = get_player_vehicle(pid)
+        if veh ~= 0 then
+            local veh_rot = NATIVE.GET_ENTITY_ROTATION(veh, 5)
+            notify(string.format("%f, %f, %f", veh_rot.x, veh_rot.y, veh_rot.z), title, 3, c.blue1)
+            utils.to_clipboard(string.format("%f, %f, %f", veh_rot.x, veh_rot.y, veh_rot.z))
+        end
+    end)
+
+    m.apf("Get Veh Name", "action", PlayerFeature.id, function(f, pid)
+        local veh = get_player_vehicle(pid)
+        if veh ~= 0 then
+            local vehModel = NATIVE.GET_ENTITY_MODEL(veh)
+            local vehName = NATIVE.GET_LABEL_TEXT(NATIVE.GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(vehModel))
+            local vehMake = NATIVE.GET_LABEL_TEXT(NATIVE.GET_MAKE_NAME_FROM_VEHICLE_MODEL(vehModel))
+            notify("" .. vehMake .. " " .. vehName)
+            utils.to_clipboard(vehName .. vehName)
+        end
+    end)
 
     Parent2 = m.af("Dev", "parent", 0)
 
+    Protections = m.af("Protections", "parent", Parent2.id)
+
+    m.af("Unmark Friends", "toggle", Protections.id, function(f, pid)
+        while f.on do
+            for pid in players() do
+                if player.is_player_friend(pid) then
+                    if player.is_player_modder(pid, -1) then
+                        player.unset_player_as_modder(pid, -1)
+                    end
+                end
+            end
+            wait(300)
+        end
+    end).on = true
+
     EntitySpawner = m.af("Entity Spawner", "parent", Parent2.id)
-
-
 
     local custom_ped, custom_veh, custom_obj, custom_world_obj = {}, {}, {}, {}
 
     m.af("Custom Pedestrian", "action_value_str", EntitySpawner.id, function(f)
         if f.value == 0 then
-            local r, s = input.get("Enter the name of the world object.", "", 250, 0)
+            local r, s = input.get("Enter the name of the ped.", "", 250, 0)
             if r == 1 then
                 return HANDLER_CONTINUE
             end
@@ -322,7 +336,6 @@ function MainScript()
             end
             selected_ped = s
             custom_ped = create_ped(-1, joaat(selected_ped), get_user_coords(), 0, true, false)
-            --NATIVE.FREEZE_ENTITY_POSITION(custom_ped, true)
             if NATIVE.DOES_ENTITY_EXIST(custom_ped) then
                 notify("Spawned " .. selected_ped, title, 3, colors.green)
             else
@@ -341,7 +354,7 @@ function MainScript()
 
     m.af("Custom Vehicle", "action_value_str", EntitySpawner.id, function(f)
         if f.value == 0 then
-            local r, s = input.get("Enter the name of the world object.", "", 250, 0)
+            local r, s = input.get("Enter the name of the vehicle.", "", 250, 0)
             if r == 1 then
                 return HANDLER_CONTINUE
             end
@@ -351,7 +364,6 @@ function MainScript()
             end
             selected_veh = s
             custom_veh = create_vehicle(joaat(selected_veh), get_user_coords(), 0, true, false, false)
-            --NATIVE.FREEZE_ENTITY_POSITION(custom_veh, true)
             if NATIVE.DOES_ENTITY_EXIST(custom_veh) then
                 notify("Spawned " .. selected_veh, title, 3, colors.green)
             else
@@ -379,9 +391,7 @@ function MainScript()
                 return HANDLER_POP
             end
             selected_obj = s
-            custom_obj = create_object(joaat(selected_obj), get_user_coords(), true, false,
-                false)
-            -- NATIVE.FREEZE_ENTITY_POSITION(custom_obj, true)
+            custom_obj = create_object(joaat(selected_obj), get_user_coords(), true, false, false)
             if NATIVE.DOES_ENTITY_EXIST(custom_obj) then
                 notify("Spawned " .. selected_obj, title, 3, colors.green)
             else
@@ -409,10 +419,7 @@ function MainScript()
                 return HANDLER_POP
             end
             selected_world_obj = s
-            custom_world_obj = create_world_object(
-                joaat(selected_world_obj),
-                get_user_coords(), true, false)
-            --NATIVE.FREEZE_ENTITY_POSITION(custom_world_obj, true)
+            custom_world_obj = create_world_object(joaat(selected_world_obj), get_user_coords(), true, false)
             if NATIVE.DOES_ENTITY_EXIST(custom_world_obj) then
                 notify("Spawned " .. selected_world_obj, title, 3, colors.green)
             else
@@ -428,4 +435,36 @@ function MainScript()
             end
         end
     end):set_str_data({ "Spawn", "Delete" })
+
+    CustomAnimation = m.af("Custom Animation", "parent", Parent2.id)
+
+    m.af("Set Custom Anim dict", "action", CustomAnimation.id, function(f)
+        local r, s = input.get("Input Anim Dict.", "", 250, 0)
+        if r == 1 then return HANDLER_CONTINUE end
+        if r == 2 then return HANDLER_POP end
+        selected_animdict = s
+    end)
+
+    m.af("Set Custom Anim", "action", CustomAnimation.id, function(f)
+        local r, s = input.get("Input Anim Name.", "", 250, 0)
+        if r == 1 then return HANDLER_CONTINUE end
+        if r == 2 then return HANDLER_POP end
+        selected_anim = s
+    end)
+
+    m.af("Play Custom Animation", "action", CustomAnimation.id, function(f)
+        if selected_animdict and selected_anim then
+            request_anim_dict(selected_animdict)
+            NATIVE.TASK_PLAY_ANIM(NATIVE.PLAYER_PED_ID(), selected_animdict,
+                selected_anim, 1.0, 1.0, -1, 3, 100.0,
+                false, false, false)
+            NATIVE.REMOVE_ANIM_DICT(selected_animdict)
+        else
+            return m.n("Invalid animation. Selected Dict:" .. selected_animdict .. "Name:" .. selected_anim, title, 3, colors.red)
+        end
+    end)
+
+    m.af("Stop Custom Animation", "action", CustomAnimation.id, function(f)
+        NATIVE.CLEAR_PED_TASKS(NATIVE.PLAYER_PED_ID())
+    end)
 end
