@@ -456,7 +456,7 @@ function MainScript()
         if NATIVE.HAS_ANIM_DICT_LOADED(dict) then
             return true
         end
-        timeout = (timeout or 1800) + utils.time_ms()
+        local timeout = (timeout or 1800) + utils.time_ms()
         NATIVE.REQUEST_ANIM_DICT(dict)
         while utils.time_ms() < timeout do
             if NATIVE.HAS_ANIM_DICT_LOADED(dict) then
@@ -470,9 +470,7 @@ function MainScript()
     m.af("Play Custom Animation", "action", CustomAnimation.id, function(f)
         if selected_animdict and selected_anim then
             request_anim_dict(selected_animdict)
-            NATIVE.TASK_PLAY_ANIM(NATIVE.PLAYER_PED_ID(), selected_animdict,
-                selected_anim, 1.0, 1.0, -1, 3, 100.0,
-                false, false, false)
+            NATIVE.TASK_PLAY_ANIM(NATIVE.PLAYER_PED_ID(), selected_animdict, selected_anim, 1.0, 1.0, -1, 3, 100.0, false, false, false)
             NATIVE.REMOVE_ANIM_DICT(selected_animdict)
         else
             return m.n("Invalid animation. Selected Dict:" .. selected_animdict .. "Name:" .. selected_anim, title, 3, colors.red)
