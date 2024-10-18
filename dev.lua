@@ -171,7 +171,7 @@ function MainScript()
     local function request_control(...)
         local Entity, timeout = ...
         if not NATIVE.NETWORK_HAS_CONTROL_OF_ENTITY(Entity) and NATIVE.IS_AN_ENTITY(Entity) and (not NATIVE.IS_ENTITY_A_PED(Entity) or not NATIVE.IS_PED_A_PLAYER(Entity)) then
-            local time = utils.time_ms() + (timeout or 1000)
+            local time = utils.time_ms() + (timeout or 5000)
             local net_id = NATIVE.NETWORK_GET_NETWORK_ID_FROM_ENTITY(Entity)
             NATIVE.SET_NETWORK_ID_CAN_MIGRATE(net_id, true)
             NATIVE.NETWORK_REQUEST_CONTROL_OF_ENTITY(Entity)
